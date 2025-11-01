@@ -1,0 +1,9 @@
+log/*
+tmp/*
+node_modules/
+.bundle/
+.git/
+.DS_Store
+yarn-error.log
+/public/assets
+/storage/*

@@ -2,7 +2,7 @@ version: '3.8'
 services:
   db:
     image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
+    # command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -14,8 +14,9 @@ services:
     volumes:
       - db_data:/var/lib/mysql
   server:
+    # build: ./service
     build: arn4n/jtk-berbagi-server:latest
-    command: bundle exec puma -C config/puma.rb
+    # command: bundle exec puma -C config/puma.rb
     # volumes:
     #   - ./service:/app
     ports:

@@ -23,8 +23,9 @@ RUN yarn install
 # App source
 COPY . .
 
-# Normalize line endings (CRLF -> LF) and ensure executables
-RUN sed -i 's/\r$//' entrypoint.sh || true && \
+# 🔧 Pastikan folder tmp/pids ada dan line endings normal
+RUN mkdir -p tmp/pids && \
+    sed -i 's/\r$//' entrypoint.sh || true && \
     chmod +x entrypoint.sh && \
     find db/migrate -type f -name "*.rb" -exec sed -i 's/\r$//' {} + || true && \
     find bin -type f -exec sed -i 's/\r$//' {} + || true

@@ -8,7 +8,7 @@ class CreatePenggalanganDanaBeasiswas < ActiveRecord::Migration[6.1]
       t.date :waktu_berakhir
       t.integer :kuota_beasiswa
       t.bigint :target_dana
-      t.integer :target_jumlah_penerima
+      t.integer :target_penerima
       t.integer :total_nominal_terkumpul
       t.decimal :status
 

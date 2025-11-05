@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  postgres-booking:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: axoniq-hotel-booking
+      POSTGRES_USER: demouser
+      POSTGRES_PASSWORD: thepassword
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  postgres-inventory:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: axoniq-hotel-inventory
+      POSTGRES_USER: demouser
+      POSTGRES_PASSWORD: thepassword
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
+
+  axonserver:
+    image: axoniq/axonserver:4.6.0
+    ports:
+      - "8024:8024"
+      - "8124:8124"
+    restart: unless-stopped
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.53
+    ports:
+      - "16686:16686"   # Jaeger UI
+      - "6831:6831/udp" # Jaeger agent UDP
+    restart: unless-stopped
+
+  axoniq-hotel-booking:
+    image: agim221/axoniq-hotel-booking
+    environment:
+      AXON_AXONSERVER_COMPONENT-NAME: "axoniq-hotel-booking-demo-k18"
+      AXON_AXONSERVER_SERVERS: "axonserver:8124"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-booking:5432/axoniq-hotel-booking
+      SPRING_DATASOURCE_USERNAME: demouser
+      SPRING_DATASOURCE_PASSWORD: thepassword
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_JPA_PROPERTIES_HIBERNATE_JDBC_LOB_NON-CONTEXTUAL-CREATION: "true"
+      OPENTRACING_JAEGER_UDP-SENDER_HOST: "jaeger"
+      OPENTRACING_JAEGER_UDP-SENDER_PORT: "6831"
+      OPENTRACING_JAEGER_ENABLED: "true"
+      OPENTRACING_JAEGER_SERVICE-NAME: "axoniq-hotel-booking"
+    ports:
+      - "8080:8080"
+      - "7000:7000"
+    depends_on:
+      - postgres-booking
+      - axonserver
+      - jaeger
+    restart: unless-stopped
+
+  axoniq-hotel-inventory:
+    image: agim221/axoniq-hotel-inventory
+    environment:
+      AXON_AXONSERVER_COMPONENT-NAME: "axoniq-hotel-inventory-demo-k18"
+      AXON_AXONSERVER_SERVERS: "axonserver:8124"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-inventory:5432/axoniq-hotel-inventory
+      SPRING_DATASOURCE_USERNAME: demouser
+      SPRING_DATASOURCE_PASSWORD: thepassword
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_JPA_PROPERTIES_HIBERNATE_JDBC_LOB_NON-CONTEXTUAL-CREATION: "true"
+      OPENTRACING_JAEGER_UDP-SENDER_HOST: "jaeger"
+      OPENTRACING_JAEGER_UDP-SENDER_PORT: "6831"
+      OPENTRACING_JAEGER_ENABLED: "true"
+      OPENTRACING_JAEGER_SERVICE-NAME: "axoniq-hotel-inventory"
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres-inventory
+      - axonserver
+      - jaeger
+    restart: unless-stopped

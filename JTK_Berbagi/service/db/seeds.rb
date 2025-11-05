@@ -9,11 +9,11 @@ Rails.logger.info "Destroying all existing records..."
  PenerimaNonBeasiswa, BantuanDanaNonBeasiswa, PenanggungJawabNonBeasiswa].each(&:destroy_all)
 
 # Reset auto-increment counters only for tables with single-column integer primary keys
-ActiveRecord::Base.connection.execute("ALTER TABLE bantuandanabeasiswa AUTO_INCREMENT = 1")
-ActiveRecord::Base.connection.execute("ALTER TABLE bantuandananonbeasiswa AUTO_INCREMENT = 1")
-ActiveRecord::Base.connection.execute("ALTER TABLE penggalangandanabeasiswa AUTO_INCREMENT = 1")
-ActiveRecord::Base.connection.execute("ALTER TABLE donasi AUTO_INCREMENT = 1")
-ActiveRecord::Base.connection.execute("ALTER TABLE rekeningbank AUTO_INCREMENT = 1")
+ActiveRecord::Base.connection.execute("ALTER TABLE BantuanDanaBeasiswa AUTO_INCREMENT = 1")
+ActiveRecord::Base.connection.execute("ALTER TABLE BantuanDanaNonBeasiswa AUTO_INCREMENT = 1")
+ActiveRecord::Base.connection.execute("ALTER TABLE PenggalanganDanaBeasiswa AUTO_INCREMENT = 1")
+ActiveRecord::Base.connection.execute("ALTER TABLE Donasi AUTO_INCREMENT = 1")
+ActiveRecord::Base.connection.execute("ALTER TABLE RekeningBank AUTO_INCREMENT = 1")
 
 # Seeder untuk CivitasAkademika
 Rails.logger.info "Seeding CivitasAkademika..."
@@ -116,7 +116,7 @@ Rails.logger.info "Seeding PenggalanganDanaBeasiswa..."
 penggalangan_dana_records = PenggalanganDanaBeasiswa.create!([
   {
     penggalangan_dana_beasiswa_id: 1,
-    penanggung_jawab_id: penanggung_jawab_roles[0], # Now references role 0
+    penanggung_jawabs_role: penanggung_jawab_roles[0], # Now references role 0
     deskripsi: "Bantuan dana UKT untuk mahasiswa terdampak ekonomi",
     judul: "Beasiswa Peduli Pendidikan 2025",
     waktu_dimulai: Date.new(2025, 5, 1),
@@ -129,7 +129,7 @@ penggalangan_dana_records = PenggalanganDanaBeasiswa.create!([
   },
   {
     penggalangan_dana_beasiswa_id: 2,
-    penanggung_jawab_id: penanggung_jawab_roles[2], # Now references role 2
+    penanggung_jawabs_role: penanggung_jawab_roles[2], # Now references role 2
     deskripsi: "Bantuan dana untuk mahasiswa berprestasi",
     judul: "Beasiswa Prestasi Akademik 2025",
     waktu_dimulai: Date.new(2025, 6, 1),
@@ -142,7 +142,7 @@ penggalangan_dana_records = PenggalanganDanaBeasiswa.create!([
   },
   {
     penggalangan_dana_beasiswa_id: 3,
-    penanggung_jawab_id: penanggung_jawab_roles[4], # Now references role 4
+    penanggung_jawabs_role: penanggung_jawab_roles[4], # Now references role 4
     deskripsi: "Bantuan dana untuk mahasiswa kurang mampu",
     judul: "Beasiswa Solidaritas 2025",
     waktu_dimulai: Date.new(2025, 7, 1),
@@ -155,7 +155,7 @@ penggalangan_dana_records = PenggalanganDanaBeasiswa.create!([
   },
   {
     penggalangan_dana_beasiswa_id: 4,
-    penanggung_jawab_id: penanggung_jawab_roles[0], # Now references role 0
+    penanggung_jawabs_role: penanggung_jawab_roles[0], # Now references role 0
     deskripsi: "Bantuan dana untuk mahasiswa terdampak bencana",
     judul: "Beasiswa Darurat Bencana 2025",
     waktu_dimulai: Date.new(2025, 5, 15),
@@ -168,7 +168,7 @@ penggalangan_dana_records = PenggalanganDanaBeasiswa.create!([
   },
   {
     penggalangan_dana_beasiswa_id: 5,
-    penanggung_jawab_id: penanggung_jawab_roles[2], # Now references role 2
+    penanggung_jawabs_role: penanggung_jawab_roles[2], # Now references role 2
     deskripsi: "Bantuan dana untuk penelitian mahasiswa",
     judul: "Beasiswa Penelitian 2025",
     waktu_dimulai: Date.new(2025, 8, 1),
@@ -384,7 +384,7 @@ PenggalanganDanaBeasiswa.create!(
   [
     {
       penggalangan_dana_beasiswa_id: 6,
-      penanggung_jawab_id: 1,
+      penanggung_jawabs_role: 1,
       deskripsi: "Bantuan dana UKT untuk mahasiswa terdampak ekonomi",
       judul: "Beasiswa Peduli Pendidikan 2025",
       waktu_dimulai: Date.new(2025, 5, 1),
@@ -397,7 +397,7 @@ PenggalanganDanaBeasiswa.create!(
     },
     {
       penggalangan_dana_beasiswa_id: 7,
-      penanggung_jawab_id: 1,
+      penanggung_jawabs_role: 1,
       deskripsi: "Bantuan dana UKT untuk mahasiswa terdampak ekonomi",
       judul: "Beasiswa Peduli Pendidikan 2025",
       waktu_dimulai: Date.new(2024, 5, 1),
